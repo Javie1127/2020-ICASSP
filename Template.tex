@@ -1,0 +1,388 @@
+% Template for ICASSP-2020 paper; to be used with:
+%          spconf.sty  - ICASSP/ICIP LaTeX style file, and
+%          IEEEbib.bst - IEEE bibliography style file.
+% --------------------------------------------------------------------------
+%\documentclass{article}
+%\usepackage{spconf,amsmath,graphicx}
+\documentclass[conference]{IEEEtran}
+\usepackage{cite}
+\usepackage[pdftex]{graphicx}
+\usepackage{amssymb,amsmath}
+\usepackage[noend]{algpseudocode}
+\usepackage{algorithm} 
+\usepackage{array}
+\usepackage[caption=false,font=footnotesize]{subfig}
+\usepackage{stfloats}
+\usepackage{url}
+\usepackage{cases}
+\usepackage{upgreek}
+\usepackage{balance}
+
+\usepackage{siunitx}
+\usepackage{xcolor}
+\usepackage[normalem]{ulem}
+\usepackage{mleftright}
+
+
+% Example definitions.
+% --------------------
+\def\x{{\mathbf x}}
+\def\L{{\cal L}}
+\newcommand{\sizecorr}[1]{\makebox[0cm]{\phantom{$\displaystyle #1$}}}
+\DeclareMathOperator{\vect}{vec}
+\DeclareMathOperator{\trace}{Tr}
+\DeclareMathOperator{\diag}{\mathrm{diag}}
+\newcommand{\paren}[1]{\left({#1}\right)}
+\newcommand{\bracket}[1]{{\left [{#1}\right ]}}
+\newcommand{\braces}[1]{{\left\{ {#1}\right\}}} 
+\newcommand{\ith}[1]    {{#1}^{\underline{\text{th}}}}
+\newcommand{\rr}{_\mathrm{r}}
+\newcommand{\cc}{_\mathrm{c}}
+\newcommand{\bb}{_\mathrm{B}}
+\newcommand{\B}{\mathrm{B}}
+\newcommand{\rnr}{_{\mathrm{r},n_\mathrm{r}}}
+\newcommand{\target}{\mathrm{t}}
+%# new commands for the parameters
+%%Precoding matrices
+%\newcommand{\PiB}{\mathbf{P}_{i,\mathrm{B}}\bracket{k}}
+\newcommand{\PiB}{\mathbf{P}_{i,\textrm{u}}\bracket{k}}
+\newcommand{\PiBH}{\mathbf{P}^\dagger_{i,\textrm{u}}\bracket{k}}
+%\newcommand{\PBj}{\mathbf{P}_{\mathrm{B},j}\bracket{k}}
+\newcommand{\PBj}{\mathbf{P}_{j,\textrm{d}}\bracket{k}}
+%\newcommand{\PBjH}{\PBjH\bracket{k}}
+\newcommand{\PBjH}{\mathbf{P}^\dagger_{j,\textrm{d}}\bracket{k}}
+\newcommand{\PBg}{\mathbf{P}_{g,\textrm{d}}\bracket{k}}
+\newcommand{\PBgH}{\mathbf{P}^\dagger_{g,\textrm{d}}\bracket{k}}
+\newcommand{\PqB}{\mathbf{P}_{q,\textrm{u}}\bracket{k}}
+\newcommand{\PqBH}{\mathbf{P}^\dagger_{q,\textrm{u}}\bracket{k}}
+
+%% Covariance matrices
+% DL
+\newcommand{\Rj}{\mathbf{R}^\text{d}_{j}\bracket{k}}
+\newcommand{\Rjin}{\left(\mathbf{R}^\text{d}_{j}\bracket{k}\right)^{-1}}
+\newcommand{\Rinj}{\mathbf{R}^\text{d}_{\mathrm{in},j}\bracket{k}}
+\newcommand{\Rinjin}{\left( \mathbf{R}^\text{d}_{\mathrm{in},j}\bracket{k}\right)^{-1}}
+\newcommand{\Ring}{\mathbf{R}^\text{d}_{\mathrm{in},g}\bracket{k}}
+\newcommand{\Ringin}{\left( \mathbf{R}^\text{d}_{\mathrm{in},g}\bracket{k}\right)^{-1}}
+% UL
+\newcommand{\Ri}{\mathbf{R}^\text{u}_{i}\bracket{k}}
+\newcommand{\Riin}{\left(\mathbf{R}^\text{u}_{i}\bracket{k}\right)^{-1}}
+\newcommand{\Rini}{\mathbf{R}^\text{u}_{\mathrm{in},i}\bracket{k}}
+\newcommand{\Riniin}{\left( \mathbf{R}^\text{u}_{\mathrm{in},i}\bracket{k}\right)^{-1}}
+\newcommand{\Rq}{\mathbf{R}^\text{u}_{q}\bracket{k}}
+\newcommand{\Rqin}{\left(\mathbf{R}^\text{u}_{q}\bracket{k}\right)^{-1}}
+\newcommand{\Rinq}{\mathbf{R}^\text{u}_{\mathrm{in},q}\bracket{k}}
+\newcommand{\Rinqin}{\left( \mathbf{R}^\text{u}_{\mathrm{in},q}\bracket{k}\right)^{-1}}
+%%% Receiver
+\newcommand{\UqB}{\mathbf{U}_{q,\textrm{u}}\bracket{k}}
+\newcommand{\UiB}{\mathbf{U}_{i,\textrm{u}}\bracket{k}}
+\newcommand{\UiBH}{\mathbf{U}^\dagger_{i,\textrm{u}}\bracket{k}}
+\newcommand{\UqBH}{\mathbf{U}^\dagger_{q,\textrm{u}}\bracket{k}}
+\newcommand{\WiB}{\mathbf{W}_{i,\textrm{u}}\bracket{k}}
+\newcommand{\WqB}{\mathbf{W}_{q,\textrm{u}}\bracket{k}}
+\newcommand{\WiBH}{\mathbf{W}^\dagger_{i,\textrm{u}}\bracket{k}}
+%\newcommand{\UBj}{\mathbf{U}_{\mathrm{B},j}\bracket{k}}
+\newcommand{\UBj}{\mathbf{U}_{j,\textrm{d}}\bracket{k}}
+%\newcommand{\UBjH}{\mathbf{U}^\dagger_{\mathrm{B},j}\bracket{k}}
+\newcommand{\UBjH}{\mathbf{U}^\dagger_{j,\textrm{d}}\bracket{k}}
+%\newcommand{\WBj}{\mathbf{W}_{\mathrm{B},j}\bracket{k}}
+\newcommand{\WBj}{\mathbf{W}_{j,\textrm{d}}\bracket{k}}
+\newcommand{\WBjH}{\mathbf{W}^\dagger_{j,\textrm{d}}\bracket{k}}
+%\newcommand{\WBjH}{\mathbf{W}^\dagger_{\mathrm{B},j}\bracket{k}}
+\newcommand{\Wrnr}{\mathbf{W}_{\mathrm{r},n_\mathrm{r}}}
+\newcommand{\urk}{\mathbf{u}_{\mathrm{r},n_\mathrm{r}}\bracket{k}}
+\newcommand{\urkH}{\mathbf{u}^\dagger_{\mathrm{r},n_\mathrm{r}}\bracket{k}}
+\newcommand{\urm}{\mathbf{u}_{\mathrm{r},n_\mathrm{r}}\bracket{m}}
+\newcommand{\urmH}{\mathbf{u}^\dagger_{\mathrm{r},n_\mathrm{r}}\bracket{m}}
+% Channel Matrices
+\newcommand{\HrB}{\mathbf{H}_{\mathrm{rB}}}
+\newcommand{\HrBH}{\mathbf{H}^\dagger_{\mathrm{rB}}}
+\newcommand{\Hrj}{\mathbf{H}_{\mathrm{r},j}}
+\newcommand{\HrjH}{\mathbf{H}^\dagger_{\mathrm{r},j}}
+\newcommand{\HBj}{\mathbf{H}_{\mathrm{B},j}}
+\newcommand{\HBjH}{\mathbf{H}^\dagger_{\mathrm{B},j}}
+\newcommand{\HBg}{\mathbf{H}_{\mathrm{B},g}}
+\newcommand{\HBgH}{\mathbf{H}^\dagger_{\mathrm{B},g}}
+\newcommand{\HBB}{\mathbf{H}_{\mathrm{BB}}}
+\newcommand{\HBBH}{\mathbf{H}^\dagger_{\mathrm{BB}}}
+\newcommand{\HiB}{\mathbf{H}_{i,\mathrm{B}}}
+\newcommand{\HiBH}{\mathbf{H}^\dagger_{i,\mathrm{B}}}
+\newcommand{\HqB}{\mathbf{H}_{q,\mathrm{B}}}
+\newcommand{\HqBH}{\mathbf{H}^\dagger_{q,\mathrm{B}}}
+\newcommand{\Hij}{\mathbf{H}_{i,j}}
+\newcommand{\HijH}{\mathbf{H}^\dagger_{i,j}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\newcommand{\sfrac}[2]{#1/#2}
+\newcommand{\Cite}[2]{[cf.~\cite{#1},~#2]}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newcounter{MYtempeqncnt}
+
+% Title.
+% ------
+\title{Co-Design for Statistical MIMO Radar and Multi-User MIMO Communications}
+%
+% Single address.
+% ---------------
+%\name{Author(s) Name(s)\thanks{Thanks to XYZ agency for funding.}}
+%\address{Author Affiliation(s)}
+%
+% For example:
+% ------------
+%\address{School\\
+%	Department\\
+%	Address}
+%
+% Two addresses (uncomment and modify for two-address case).
+% ----------------------------------------------------------
+%\twoauthors
+%  {Jiawei~Liu, Mohammad~Saquib}
+%	{The University of Texas at Dallas\\
+%	Department of Electrical and Computer Engineering\\
+%	Richardson TX 75080, USA}
+%  {Kumar~Vijay~Mishra}
+%%	{The University of Iowa  \\
+%		Department\\
+%	Iowa City IA,52242 USA}
+%
+\author{\IEEEauthorblockN{Jiawei~Liu~and~Mohammad~Saquib}
+\IEEEauthorblockA{Department of Electrical and Computer Engineering\\
+The University of Texas at Dallas\\
+Richardson, TX 75080}
+\\
+%Email: {\{Jiawei.Liu3, Saquib\}}@utdallas.edu
+\and
+\IEEEauthorblockN{Kumar~Vijay~Mishra}
+\IEEEauthorblockA{The University of Iowa\\
+Iowa City IA, 52242\\
+Email: kumarvijay-mishra@uiowa.edu}}
+\begin{document}
+%\ninept
+%
+\maketitle
+%
+\begin{abstract}
+This work introduces a joint radar and communication system design procedure. A compound rate considering both the radar and communications performance is proposed.
+\end{abstract}
+%
+\begin{keywords}
+MIMO radar, spectrum sharing, Multi-User MIMO communications
+\end{keywords}
+%
+\section{Introduction}
+\label{sec:intro}
+There has been an ever-increasing demand for radar and communication systems to share frequency spectrum due to the substantial growth of applications for wireless technology 
+% statistical MIMO
+The transmit and receive elements of the statistical MIMO radar are sufficiently separated and isotropic such that each transmit-receive pair observes a different aspect of the target\cite{haimovich2008mimo,jajamovic2010spacetime}.
+% Generalization of MRMC
+Nearly all of these works are focused on single-user (SU) MIMO communications and colocated MIMO radars. Current trend is to generalize MRMC for more practical systems. In this context, a novel precoding optimization approach based on constructive interference is investigated in \cite{liu2018mimo} for coexistence between colocated MIMO radar and DL MU multiple input single-output (MISO) communications. This was later extended to coexistence of MIMO radar with MU-MIMO communications \cite{liu2018mu} through multiple radar transmit beamforming approaches that keep the original modulation and communications data rate unaffected. In \cite{biswas2018qos}, MRMC is extended to the coexistence of colocated MIMO radar with a multi-user (MU) full-duplex (FD) BS that serves multiple DL and UL users simultaneously using identical bandwidth and transmission times. Very recently, MRMC for widely distributed MIMO radar have been studied with P2P MIMO communications \cite{he2018performance}.
+One para on our contributions and differences w.r.t. previous works
+\color{magenta}
+However, the joint MIMO radar and the FD-MIMO communications system design problem has not been well investigated given the literature mentioned above.  In this work, we co-design a statistical MIMO radar and an FD-MIMO communications system. More specifically, the transmit waveform matrix for the MIMO radar as well as the UL and DL precoding matrices for the FD-MIMO communications system will be jointly considered and solved through an iterative alternating optimization approach. 
+
+\color{red}
+One para on the organization of the rest of the paper
+
+\color{blue}
+The organization of the paper is as follows. \color{magenta} First of all, we describe the individual system model for the statistical MIMO radar and the FD-MIMO communications system, receptively. We then propose the coexistence model used for finding the optimal 
+\color{black}
+\section{SYSTEM MODEL}
+\label{sec:system model}
+The joint MIMO radar and MU-MIMO communication system consists of a statistical MIMO radar with $M_\mathrm{r}$ transmitters (TX) and $N_\mathrm{r}$ receivers (RX), a BS equipped with $M_\mathrm{c}$ antennas, $J$ DL UEs each with $N_{j,\textrm{d}}$ antennas, and $I$ UL UES each with $N_{i,\textrm{u}}$ antennas.   The $M_\mathrm{r}$ TX and $N_\mathrm{r}$ RX of the MIMO radar as well as the BS and the $N$ UEs are located in a 2-D plane $\left(x,y \right)$ at coordinates $\left(x_{m_\mathrm{r}},y_{m_\mathrm{r}}\right)$, $m_\mathrm{r}\in{Z}_{+}(M_\mathrm{r})$ and $\left(x_{n_\mathrm{r}},y_{n_\mathrm{r}} \right)$, $n_\mathrm{r}\in\mathbb{Z}_{+}(N_\mathrm{r})$, as well as $(x_{\mathrm{B}},y_{\mathrm{B}})$ and $(x_{\mathrm{n}},y_{\mathrm{n}})$, $n\in\mathbb{Z}_{+}(N)$, respectively.
+Within a coherent processing interval (CPI), each element of the MIMO radar TX transmits a pulse train consisting of $K$ pulses with a given pulse repetition interval (PRI) $T_\mathrm{r}$, where $K$ is chosen such that the range migration does not occur for the duration of the pulse train\cite{Xiaodong_Overlaid}. The total radar transmit codes are given by the elements of a code matrix $\mathbf{A}\triangleq\bracket{\mathbf{a}^\top\bracket{1};\cdots; \mathbf{a}^\top\bracket{K}}\in\mathbb{C}^{K\times M\rr}$ where $\mathbf{a}\bracket{k}=\bracket{a_{1}\bracket{k},\cdots,a_{M\rr}\bracket{k}}^\top$ denotes the radar code transmitted during the $\ith{k}$ PRI. Denoting the matched filter bank output due to the target return at the $\ith{n\rr}$ MIMO radar RX by $\mathbf{y}_{\mathrm{t},n\rr,n}$, whose $\ith{k}$ element is\par\noindent\small 
+\begin{equation}
+\label{radar range cell}
+		\mathbf{y}_{\mathrm{t},n\rr,n}\bracket{k}=\mathbf{h}^\top_{\mathrm{rt},n\rr}\mathbf{Q}_{\mathrm{r,}n\rr}\bracket{k}\mathbf{a}\bracket{k}\triangleq\mathbf{h}^\top_{\mathrm{rt},n\rr}\mathbf{s}_{\mathrm{rt,}n\rr}\bracket{k}
+\end{equation}\normalsize
+The downlink transmission is modeled as the MIMO BC, denoted by a Rayleigh fading channel $\mathbf{H}_{\mathrm{B},j}\in\mathbb{C}^{N^{\text{d}}_j\times M_\mathrm{c}}$, which is also assumed to be full rank for all $j\in\mathbb{Z}_{+}(J)$ to achieve the highest spatial degrees of freedom of the MIMO-BC channel\cite{MIMOcom}. The FD transmission introduces UL signal interferences to the DL UEs through channels $\mathbf{H}_{i,j}\in\mathbb{C}^{N^{\text{d}}_j\times N_i}$ for $i\in\mathbb{Z}^+\braces{I}$ and $j\in\mathbb{Z}^+\braces{J}$. We can write the downlink and uplink signals during the $\ith{\ell}$ symbol period of the $\ith{k}$ frame received at the $\ith{j}$ DL UE as \par\noindent\small
+	\begin{equation} \label{MUI}
+	\mathbf{y}_{\mathrm{B},j}\bracket{k,\ell}=\mathbf{H}_{\mathrm{B},j} \PBj\mathbf{d}_{\mathrm{B},j}\bracket{k,\ell}+\mathbf{y}_{\mathrm{DL,MUI},j}\bracket{k,\ell}
+	\end{equation}\normalsize
+	and\par\noindent\small
+	\begin{equation}
+	\mathbf{y}_{\mathrm{UL},j}\bracket{k,\ell}=\sum_{i=1}^{I}\mathbf{H}_{i,j}\mathbf{P}_{i,\mathrm{B}}\mathbf{d}_{i,\mathrm{B}}\bracket{\ell},
+	\end{equation}\normalsize
+	respectively, where\par\noindent\small
+	\begin{equation}
+	\mathbf{y}_{\mathrm{DL,MUI},j}\bracket{k,\ell} = \mathbf{H}_{\mathrm{B},j}\sum_{g\neq j}^{}\mathbf{P}_{\mathrm{B},g}\bracket{k}\mathbf{d}_{\mathrm{B},g}\bracket{k,\ell}\nonumber
+	\end{equation}\normalsize
+	denotes the $\ith{j}$ DL UE's DL MUI. We continue to show the covariance matrices of $\mathbf{y}_{\mathrm{B,MUI},j}\bracket{k,\ell}$, $\mathbf{y}_{\mathrm{B},j}\bracket{k,\ell}$ and $\mathbf{y}_{\mathrm{UL},j}\bracket{k,\ell}$ as $\mathbf{R}_{\mathrm{DL,MUI},j}\bracket{k,\ell}=\sum_{g\neq j}\mathbf{H}_{\mathrm{B},j}\mathbf{P}_{\mathrm{B},g}\bracket{k}\mathbf{P}^{\dagger}_{\mathrm{B},g}\bracket{k}\mathbf{H}^\dagger_{\mathrm{B},j}$, $\mathbf{R}_{\B,j}\bracket{k,\ell}=\mathbf{H}_{\mathrm{B},j}\PBj\PBjH\bracket{k}\mathbf{H}^\dagger_{\mathrm{B},j}+\mathbf{R}_{\mathrm{B,MUI},j}\bracket{k,\ell}$, and $\mathbf{R}_{\mathrm{UL},j}\bracket{k,\ell}=\sum_{i=1}^{I}\mathbf{H}_{i,j}\PiB\PiBH\mathbf{H}^\dagger_{i,j}$, respectively.
+\section{Problem Formulation}
+\label{sec:problem formulation}
+Due to the FD transmission of the BS and UL UEs during a CPI, the MIMO radar RX is interfered by $\mathbf{x}_{\mathrm{U}}(t)$ and $\mathbf{x}_{\mathrm{B}}(t)$ continuously. In \figurename{$\;$\ref{systemmodel}}, we illustrate the co-existence model in the time domain. Recall our discussion prior to (\ref{radar range cell}) that our radar system design will be focused on the components in the cell of interest. 
+	
+Generally speaking, $\mathbf{x}_{\mathrm{B}}(t)$ arrives at the $\ith{n\rr}$ MIMO radar RX through a multipath Rayleigh fading channel denoted by $\mathbf{h}_{\mathrm{Bm},n\rr}\in\mathbb{C}^{M_\mathrm{c}\times1}\sim \mathcal{CN}\paren{0,\eta^2_{\mathrm{B},n\rr}}$ throughout the CPI. %$\mathbf{H}_{\mathrm{Bmr}}\triangleq\bracket{\mathbf{h}_{\mathrm{Bm},1},\cdots,\mathbf{h}_{\mathrm{Bm},N\rr}}\in\mathbb{C}^{M_\mathrm{c}\times N\rr}$ with i.i.d coefficients drawn from $\mathcal{CN}\paren{0,\eta^2_\mathrm{B}}$. 
+	However, with the presence of the target, the $\ith{n\rr}$ MIMO radar RX is able to capture $\mathbf{x}_\mathrm{B}(t)$ at the cell of interest after its being reflected by the target similar to a passive radar. As shown in the \figurename{$\;$\ref{systemmodel}}, DL signal vectors interfering with the CUT during the CPI consist of two components, one is arriving through the multipath channel denoted by $\mathbf{S}_{\mathrm{Bm},n\rr}\triangleq\bracket{\mathbf{s}^\top_{\mathrm{Bm},n\rr}\bracket{1};\cdots;\mathbf{s}^\top_{\mathrm{Bm},n\rr}\bracket{K}}\in\mathbb{C}^{K\times M\cc}$ and the other through the target reflection denoted by $\mathbf{S}_{\mathrm{Bt,}n\rr}\triangleq\bracket{\mathbf{s}^\top_{\mathrm{Bt},1}\bracket{1};\cdots;\mathbf{s}^\top_{\mathrm{Bt},n\rr}\bracket{K}}\in\mathbb{C}^{K\times M\cc}$, where
+	% We define two sets of precoders $\braces{\mathbf{Q}_{B,j,}}$ and $\braces{\mathbf{Q}_{B,j}}$
+	$\mathbf{s}_{\mathrm{Bm},n\rr}\bracket{k}=\sum_{j=1}^{J}\mathbf{P}_{\mathrm{B},j}\mathbf{d}_{\mathrm{B},j}\bracket{k,n+1}$ and $\mathbf{s}_{\mathrm{Bt},n\rr}\bracket{k}=\mathbf{q}_{\mathrm{Bm},n\rr}\bracket{k}
+	\sum_{j=1}^J\PBj\mathbf{d}_{\B,j}\bracket{k,n+1}$. The $N\rr$ target reflection paths are denoted by $\mathbf{H}_{\mathrm{Btr}}\triangleq\bracket{\mathbf{h}_{\mathrm{Bt,}1},\cdots,\mathbf{h}_{\mathrm{Bt,}N\rr}}\in\mathbb{C}^{M\cc\times N\rr}$, whose $\ith{n\rr}$ column is given by $\mathbf{h}_{\mathrm{Bt,}n\rr}=\alpha_{\mathrm{Bt}n_\mathrm{r}}\mathbf{a}_\mathrm{B}\paren{\theta_{\mathrm{Bt}}}$, where $\alpha_{\mathrm{Bt}n_\mathrm{r}}$ denotes the propagation coefficients of the path from the BS to the $\ith{n\rr}$ radar RX and $\braces{\alpha_{\mathrm{Bt}n_\mathrm{r}}}_{n\rr=1}^{N\rr}$ are independently drawn from $\mathcal{CN}\paren{0,\eta^2_{\mathrm{Bt}}}$,  $\mathbf{a}_\mathrm{B}\paren{\theta_{\mathrm{Bt}}}$ the transmit steering vector of the BS TX and $\theta_{\mathrm{Bt}}$ the angle of departure viewed by the BS. The normalized Doppler shift of the $\ith{n\rr}$ target reflection path is denoted by $f_{\mathrm{B}\target n_\mathrm{r}}=\frac{\nu_{\mathrm{x},\mathrm{t}} T\rr}{\lambda}\paren{\cos\theta_{\mathrm{Bt}}+\cos\phi_{n_\mathrm{r}\mathrm{t}}}+\frac{\nu_{\mathrm{y},\mathrm{t}}T\rr}{\lambda}\paren{\sin\theta_{\mathrm{Bt}}+\sin\phi_{n_\mathrm{r}\mathrm{t}}}$ while the counterpart of the $\ith{n\rr}$ multipath channel is modeled as a random variable $f_{\mathrm{B}\target n_\mathrm{r}}$. 
+	%$\boldsymbol{\mu}_{n\rr}\bracket{ k}=e^{j2\pi(k-1) f_{\mathrm{B}\target n_\mathrm{r}}}$,   
+	One can then define the temporal steering vectors for the DL signals arriving at the MIMO radar through the $\ith{n\rr}$ multipath and target reflection channels as $\mathbf{q}_{\mathrm{Bm},n\rr}=\bracket{1,\cdots,e^{j2\pi(K-1) f_{\mathrm{Bm}n_\mathrm{r}}}}^\top$ and $\mathbf{q}_{\mathrm{Bt},n\rr}=\bracket{1,\cdots,e^{j2\pi(K-1) f_{\mathrm{Bt}n_\mathrm{r}}}}^\top$, respectively. $\mathbf{q}_{\mathrm{Bm},n\rr}\bracket{k}=e^{j2\pi\paren{k-1}f_{\mathrm{Bm},n\rr}}$ and $\mathbf{q}_{\mathrm{Bt},n\rr}\bracket{k}=e^{j2\pi\paren{k-1}f_{\mathrm{Bt},n\rr}}$
+	%Defining $\mathbf{Q}_{\mathrm{Bmr}}=\bracket{\mathbf{q}_{\mathrm{Bm}1},\cdots,\mathbf{q}_{\mathrm{Bm}N\rr}}$ and $\mathbf{Q}_{\mathrm{Btr}}=\bracket{\mathbf{q}_{\mathrm{Bt}1},\cdots,\mathbf{q}_{\mathrm{Bt}N\rr}}$, we can show the DL signal component measured at the cell of interest of the MIMO radar as 
+The received DL signals at the $\ith{n\rr}$ radar RX cell of interest can be written as the combination of those arriving through multipath and target reflection channels, namely, $\mathbf{y}_{\mathrm{Bm},n\rr}\in\mathbb{C}^{K}$ and $\mathbf{y}_{\mathrm{Bt},n\rr}\in\mathbb{C}^K$, whose $\ith{k}$ elements are respectively written as $\mathbf{y}_{\mathrm{Bm},n\rr}\bracket{k}=\mathbf{h}^\top_{\mathrm{Bm},n\rr}\mathbf{s}_{\mathrm{Bm},n\rr}\bracket{k}$ and $\mathbf{y}_{\mathrm{Bt},n\rr}\bracket{k}=\mathbf{h}^\top_{\mathrm{Bt},n\rr}\mathbf{s}_{\mathrm{Bt},n\rr}\bracket{k}$, respectively. The UL signals are observed by the $N\rr$ MIMO radar RXs throughout the CPI but due to a relative small transmit power by each UE, we do not consider that $\mathbf{x}_{\mathrm{U}}(t)$ arrives at a radar RX through the target path. Therefore, only UL signal vectors that interfere with the CUT are the ones transmitted at the $\ith{\paren{n+1}}$ symbol period of the $\ith{k}$ frame defined as $\mathbf{V}_{i}\triangleq\bracket{\mathbf{d}^\top_{i,\mathrm{B},1}\mathbf{P}^\top_{i,\mathrm{B}}\bracket{1};\cdots;\mathbf{d}^\top_{i,\mathrm{B},(K-1)N+n+1}\mathbf{P}^\top_{i,\mathrm{B}}\bracket{K}}$ for $i\in\mathbb{Z}^+\braces{I}$. The channels from the $\ith{i}$ UE to the $\ith{n\rr}$ MIMO radar RX is denoted by $\mathbf{h}_{i,n\rr}\in\mathbb{C}^{N_i\times 1}\sim\mathcal{CN}\paren{0,\eta^2_\mathrm{U}\mathbf{I}_{N_i}}$, which is mutually independent for all $i\in\mathbb{Z}^+\braces{I}$.
+	%$N\rr$ MIMO radar RXs are contained by $\mathbf{H}_{i,\mathrm{r}}\triangleq\bracket{\mathbf{h}_{i,1},  \cdots,\mathbf{h}_{i,N\rr}}\in\mathbb{C}^{N_i\times N\rr}$, whose elements are independently drawn from $\mathcal{CN}\paren{0,\eta^2_\mathrm{U}}$. 
+The normalized Doppler shift of $\mathbf{V}_{i}$ arriving at the $\ith{n\rr}$ MIMO radar RX is denoted by $f_{i,n_\mathrm{r}}$ and the corresponding temporal steering vector is given by $\mathbf{q}_{i,n\rr}\triangleq\bracket{1,\cdots,e^{j2\pi(K-1) f_{i,n_\mathrm{r}}}}^\top\in\mathbb{C}^{K}$.
+Denoting the noise vector at the $\ith{n\rr}$ radar RX by $\mathbf{z}\rnr\in\mathcal{CN}\paren{\mathbf{0},\sigma^2\rr\mathbf{I}}$, we attain the complete receive signal model at the CUT of the $\ith{n\rr}$ MIMO radar RX as $\mathbf{y}\rnr=\mathbf{y}_{\mathrm{t},n\rr}+\mathbf{y}_{\text{in},n\rr}$,
+where $\mathbf{y}_{\text{in},n\rr}=\mathbf{y}_{\mathrm{c},n\rr}+\mathbf{y}_{\mathrm{Bm},n\rr}+\mathbf{y}_{\mathrm{U},n\rr}+\mathbf{z}\rnr$ denotes the interference-plus-noise (IN) component of $\mathbf{y}\rnr$ The covariance matrix of $\mathbf{y}_{\text{in},n\rr}$ is $\mathbf{R}_{\mathrm{in},n\rr}\triangleq\mathbf{R}\cc+\mathbf{R}_{\mathrm{Bmr}}+\mathbf{R}_{\mathrm{Ur}}+\mathbf{R}_{\mathrm{Z}_j}$
+over the course of a CPI, the radar probing pulses interfere with the communication users intermittently. First of all, due to the relative small effective antenna aperture of the DL UE, we assume that the DL UEs are not impacted by the radar signals reflected off the target as well as that the pulses transmitted by the $M\rr$ MIMO radar TXs within the $\ith{k}$ PRI affect the DL UEs during the $\ith{l}$ symbol period of each frame synchronously for $k\in\mathbb{Z}^+\braces{K}$ as seen by the sixth row of \figurename{$\;$\ref{systemmodel}}. A Rician fading channel is considered with $K-$factor $\kappa$ for the channel from the MIMO TX to the $\ith{j}$ DL UE denoted by $\mathbf{H}_{\mathrm{r},j}\triangleq\bracket{\mathbf{h}_{\mathrm{1},j},\cdots,\mathbf{h}_{M\rr j}}\in\mathbb{C}^{N^{\text{d}}_j\times M\rr}$, whose $\ith{m\rr}$ column $\mathbf{h}_{m\rr, j}\sim\mathcal{CN}\paren{\sqrt{\frac{\kappa}{\kappa+1}}\boldsymbol{\mu}_j,\frac{\eta^2_j}{\kappa+1}\mathbf{I}_{N^{\text{d}}_j}}$ with $\boldsymbol{\mu}_j\in\mathbb{C}^{N^{\text{d}}_j\times1}$ the specular path gains and $\eta^2_j$ the variance of the scattered paths for $j\in\mathbb{Z}^+(J)$\cite{MIMOcom,MIMORician}. 
+%is also uncorrelated among all DL UEs due to the widely separated MIMO radar transmit elements\cite{MIMORician2}.  
+Therefore,the radar signals received by the $\ith{j}$ DL UE at the  $\ith{l}$ symbol period of the $\ith{k}$ frame are \par\noindent\small
+\begin{IEEEeqnarray}{rCl}
+\mathbf{y}_{\mathrm{r},n+1}\bracket{k,1}=\mathbf{H}_{\mathrm{r},j}\mathbf{a}_k,\; k=1,\cdots,K,
+\end{IEEEeqnarray}\normalsize
+where the Doppler effect of $\mathbf{a}_k$ is assumed to be compensated through utilizing the training symbols. One can then write the covariance matrix of $\mathbf{y}_{\mathrm{r},n+1}\bracket{k,1}$ as $\mathbf{R}_{\mathrm{r},j}\bracket{k,1}=\mathbf{H}_{\mathrm{r},j}\mathbf{a}_k\mathbf{a}^\dagger_k\mathbf{H}^\dagger_{\mathrm{r},j}$. We can present the total signal received at the $\ith{j}$. DL UE during the $1^{st}$ symbol period of the $\ith{k}$ frame as $\mathbf{y}_{j}\bracket{k,1}=\mathbf{y}_{\mathrm{B},j}\bracket{k,1}+\mathbf{y}_{\mathrm{U},j}\bracket{k,1}+\mathbf{y}_{\mathrm{r},j}\bracket{k,1}+\mathbf{z}_{j}\bracket{k,1}$
+%\begin{IEEEeqnarray}{rCl} \label{DL UE receive signal discrete}
+%	\mathbf{y}_{j}\bracket{k,n+1}&=&\mathbf{y}_{\mathrm{B},j}\bracket{k,n+1}+\mathbf{y}_{\mathrm{U},j}\bracket{k,n+1}+\mathbf{y}_{\mathrm{r},j}\bracket{k,n+1}+\mathbf{z}_{j}\bracket{k,1}\IEEEeqnarraynumspace
+%\end{IEEEeqnarray}
+where $\mathbf{z}_j\bracket{k,\ell}\sim\mathcal{CN}\paren{0,\sigma^2_j\mathbf{I}_{N^{\text{d}}_j}}$ denotes the circularly symmetric complex Gaussian $\paren{\text{CSCG}}$ noise measured at the $\ith{j}$ DL UE, i.i.d in $k$. The covariance matrix of $\mathbf{y}_{j}\bracket{k,l}$ as $	\mathbf{R}^\text{d}_{\mathrm{in},j}\bracket{k,1}=\mathbf{R}_{\mathrm{MUI},j}\bracket{k,1}+\mathbf{R}_{\mathrm{U,}j}\bracket{k,1}+\mathbf{R}_{\mathrm{r},j}\bracket{k,1}+\sigma^2_j\mathbf{I}_{N^{\text{d}}_j}$.
+%$\mathbf{R}_{\mathrm{Z}_j}\bracket{k,1}$ where $\mathbf{R}_{\mathrm{Z}_j}=\sigma^2_j\mathbf{I}_{N^{\text{d}}_j}$. 
+The overall covariance matrix of $\mathbf{y}_{j}\bracket{k,1}$ is denoted by $\mathbf{R}^\mathrm{d}_j\bracket{k,1}=\mathbf{R}_{\mathrm{B,j}}\bracket{k,1}+\mathbf{R}^\mathrm{d}_{\mathrm{in,}j}\bracket{k,1}$ for all $k\in\mathbb{Z}^+\braces{K}$.
+	%Then the overall radar signals observed by the $\ith{j}$ UE during a CPI can be written as $\mathbf{Y}_{\mathrm{r},j}=\mathbf{H}_{\mathrm{r},j}\mathbf{A}^\top$. 
+	%We herein conclude the receive signal model of the $\ith{j}$ DL UE as 
+	%\begin{equation}
+	%\mathbf{Y}_{j}=\mathbf{Y}_{\mathrm{B},j}+\mathbf{Y}_{\mathrm{U},j}+\mathbf{Y}_{\mathrm{r},j}+\mathbf{Z}_j
+	%\end{equation}
+	
+Next, we address the impact of the MIMO radar signals onto the BS. Unlike the UEs, the BS is equipped with an antenna array with a higher gain and larger aperture such that it is able to capture the radar signals reflected off the target and clutter. With the far-field assumption, we can assume that the target return arrives at the BS RX as the same time as the MIMO radar RX namely the corresponding propagation delay $\tau_{m\rr \mathrm{tB}}=nT_\mathrm{p}$ and interferes with the $\ith{\paren{n+1}}$ symbol period of the $\ith{k}$ frame. The clutter returns will interfere with the BS throughout the CPI. However, the worst interference scenario at the BS happens when the target return also appears. We go on to model the interfering channel from the MIMO radar TX to the BS RX as a Rician fading channel denoted by $\mathbf{H}_{\mathrm{rB}}\triangleq\bracket{\mathbf{h}_{1,\mathrm{B}},\cdots,\mathbf{h}_{M\rr,\mathrm{B}}}\in\mathbb{C}^{M\mathrm{c}\times M\rr}$, whose $\ith{m\rr}$ column $\mathbf{h}_{m\rr,\mathrm{B}}\sim\mathcal{CN}\paren{\sqrt{\frac{\kappa}{\kappa+1}}\boldsymbol{\mu}_{m\rr},\frac{\eta^2_\mathrm{m\rr}}{\kappa+1}\mathbf{I}_{N^{\text{d}}_j}}$ with $\boldsymbol{\mu}_{m\rr}=\alpha_{m_\mathrm{r}\mathrm{Bt}}\mathbf{a}_{\mathrm{B}}(\theta_{\mathrm{Bt}})$ and $\eta^2_{m\rr}$ the variance of the scattered paths for $m\rr\in\mathbb{Z}^+(M\rr)$. Hence the interfering radar signal by the BS observed at the $\ith{\paren{n+1}}$ symbol period of the $\ith{k}$ frame is\par\noindent\small
+	\begin{IEEEeqnarray}{rCl}
+		\mathbf{y}_{\mathrm{rB}}\bracket{k,n+1}&=&\mathbf{H}_{\mathrm{rB}}\mathbf{a}_k,\; k=1,\cdots,K,
+	\end{IEEEeqnarray}\normalsize
+whose covariance matrix is given as $\mathbf{R}_{\mathrm{rB}}\bracket{k,n+1}=\mathbf{H}_{\mathrm{rB}}\mathbf{a}_k\mathbf{a}^\dagger_k\mathbf{H}^\dagger_{\mathrm{rB}}$. The resulting signal received at the BS RX to decode $\mathbf{x}_{i,\B}\bracket{k,n+1}$ is presented as  $\mathbf{y}_{i}\bracket{k,n+1}=\mathbf{y}_{i,\B}\bracket{k,n+1}+\mathbf{y}_{\mathrm{UL,MUI},i}\bracket{k,n+1}+\mathbf{y}_{\mathrm{rB}}\bracket{k,n+1}+\mathbf{z}_\mathrm{B}\bracket{k,n+1}$
+where the CSCG noise vector $\mathbf{z}_\mathrm{B}\bracket{k,\ell}\sim\mathcal{CN}\paren{0,\sigma^2_{\mathrm{B}}\mathbf{I}_{M\cc}}$, i.i.d in $k$ and $\ell$. The IN covariance matrix of the $\ith{i}$ UL UE for the $\ith{\paren{n+1}}$ symbol period of the $\ith{k}$ frame can be obtained as $\mathbf{R}^\text{u}_{\mathrm{in},i}\bracket{k,n+1}=\mathbf{R}^\text{u}_{\mathrm{MUI}, i}\bracket{k,n+1}+\mathbf{R}_{\mathrm{BB}}\bracket{k,n+1}+\mathbf{R}_{\mathrm{rB}}\bracket{k,n+1}+\sigma^2_{\mathrm{B}}\mathbf{I}_{M\cc}$. The total covariance matrix for decoding $\mathbf{y}_{i,\B}\bracket{k,n+1}$ is defined as $\mathbf{R}^\mathrm{u}_{i}\bracket{k,n+1}\triangleq\mathbf{R}_{i,\B}\bracket{k,n+1}+\mathbf{R}^\text{u}_{\mathrm{in},i}\bracket{k,n+1}$. 
+\section{Proposed Method}
+\label{sec:proposed method}
+The goal of the joint system design is to develop radar code matrix and UL/DL precoding matrices such that the performance of the joint radar-communication system is guaranteed when operating on the same spectrum. In this work, a compounded rate is proposed. 
+
+\section{MAJOR HEADINGS}
+\label{sec:majhead}
+
+Major headings, for example, "1. Introduction", should appear in all capital
+letters, bold face if possible, centered in the column, with one blank line
+before, and one blank line after. Use a period (".") after the heading number,
+not a colon.
+
+\subsection{Subheadings}
+\label{ssec:subhead}
+
+Subheadings should appear in lower case (initial word capitalized) in
+boldface.  They should start at the left margin on a separate line.
+ 
+\subsubsection{Sub-subheadings}
+\label{sssec:subsubhead}
+
+Sub-subheadings, as in this paragraph, are discouraged. However, if you
+must use them, they should appear in lower case (initial word
+capitalized) and start at the left margin on a separate line, with paragraph
+text beginning on the following line.  They should be in italics.
+
+\section{PRINTING YOUR PAPER}
+\label{sec:print}
+
+Print your properly formatted text on high-quality, 8.5 x 11-inch white printer
+paper. A4 paper is also acceptable, but please leave the extra 0.5 inch (12 mm)
+empty at the BOTTOM of the page and follow the top and left margins as
+specified.  If the last page of your paper is only partially filled, arrange
+the columns so that they are evenly balanced if possible, rather than having
+one long column.
+
+In LaTeX, to start a new column (but not a new page) and help balance the
+last-page column lengths, you can use the command ``$\backslash$pagebreak'' as
+demonstrated on this page (see the LaTeX source below).
+
+\section{PAGE NUMBERING}
+\label{sec:page}
+
+Please do {\bf not} paginate your paper.  Page numbers, session numbers, and
+conference identification will be inserted when the paper is included in the
+proceedings.
+
+\section{ILLUSTRATIONS, GRAPHS, AND PHOTOGRAPHS}
+\label{sec:illust}
+
+Illustrations must appear within the designated margins.  They may span the two
+columns.  If possible, position illustrations at the top of columns, rather
+than in the middle or at the bottom.  Caption and number every illustration.
+All halftone illustrations must be clear black and white prints.  Colors may be
+used, but they should be selected so as to be readable when printed on a
+black-only printer.
+
+Since there are many ways, often incompatible, of including images (e.g., with
+experimental results) in a LaTeX document, below is an example of how to do
+this \cite{Lamp86}.
+
+\section{FOOTNOTES}
+\label{sec:foot}
+
+Use footnotes sparingly (or not at all!) and place them at the bottom of the
+column on the page on which they are referenced. Use Times 9-point type,
+single-spaced. To help your readers, avoid using footnotes altogether and
+include necessary peripheral observations in the text (within parentheses, if
+you prefer, as in this sentence).
+
+% Below is an example of how to insert images. Delete the ``\vspace'' line,
+% uncomment the preceding line ``\centerline...'' and replace ``imageX.ps''
+% with a suitable PostScript file name.
+% -------------------------------------------------------------------------
+
+
+
+% To start a new column (but not a new page) and help balance the last-page
+% column length use \vfill\pagebreak.
+% -------------------------------------------------------------------------
+%\vfill
+%\pagebreak
+
+\section{COPYRIGHT FORMS}
+\label{sec:copyright}
+
+You must submit your fully completed, signed IEEE electronic copyright release
+form when you submit your paper. We {\bf must} have this form before your paper
+can be published in the proceedings.
+
+\section{RELATION TO PRIOR WORK}
+\label{sec:prior}
+
+The text of the paper should contain discussions on how the paper's
+contributions are related to prior work in the field. It is important
+to put new work in  context, to give credit to foundational work, and
+to provide details associated with the previous work that have appeared
+in the literature. This discussion may be a separate, numbered section
+or it may appear elsewhere in the body of the manuscript, but it must
+be present.
+
+You should differentiate what is new and how your work expands on
+or takes a different path from the prior studies. An example might
+read something to the effect: "The work presented here has focused
+on the formulation of the ABC algorithm, which takes advantage of
+non-uniform time-frequency domain analysis of data. The work by
+Smith and Cohen \cite{Lamp86} considers only fixed time-domain analysis and
+the work by Jones et al \cite{C2} takes a different approach based on
+fixed frequency partitioning. While the present study is related
+to recent approaches in time-frequency analysis [3-5], it capitalizes
+on a new feature space, which was not considered in these earlier
+studies."
+
+\vfill\pagebreak
+
+\section{REFERENCES}
+\label{sec:refs}
+
+List and number all bibliographical references at the end of the
+paper. The references can be numbered in alphabetic order or in
+order of appearance in the document. When referring to them in
+the text, type the corresponding reference number in square
+brackets as shown at the end of this sentence \cite{C2}. An
+additional final page (the fifth page, in most cases) is
+allowed, but must contain only references to the prior
+literature.
+
+% References should be produced using the bibtex program from suitable
+% BiBTeX files (here: strings, refs, manuals). The IEEEbib.bst bibliography
+% style file from IEEE produces unsorted bibliography list.
+% -------------------------------------------------------------------------
+\bibliographystyle{IEEEtran}
+\bibliography{IEEEabrv, refs}
+
+\end{document}
