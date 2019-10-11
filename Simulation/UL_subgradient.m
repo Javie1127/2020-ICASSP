@@ -39,8 +39,8 @@ while t_UL <= t_UL_max
     % Update covariance matrices 
 %     cov_temp = covmat(fdcomm_temp,radar_temp,radar_comm); 
     % update Comm WMMSE receivers and weight matrices
-    fdcomm_temp = Comm_MMSE(fdcomm_temp, radar_temp, cov);
-    % Update radar WMMSE receivers and weight matrices
+    fdcomm_temp = Comm_MMSE(fdcomm_temp, radar, cov);
+    % Update radar WMMSE receivers and sweight matrices
 %     radar_temp = radar_MMSE(radar_temp, cov_temp);
     % update Xi_MSE
     fdcomm_temp = Xi_comm_k(fdcomm_temp, k);
@@ -49,8 +49,6 @@ while t_UL <= t_UL_max
     Xi_temp = fdcomm_temp.Xi_UL(k)+fdcomm_temp.Xi_DL(k) + sum(radar.Xi_r);
     if Xi_temp < Xi_k
         fdcomm = fdcomm_temp;
-        radar = radar_temp;
-        cov = cov_temp;
         Xi_k = Xi_temp; 
     end
     % calculate the new Xi_mse

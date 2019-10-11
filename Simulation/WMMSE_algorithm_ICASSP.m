@@ -8,8 +8,6 @@ function [fdcomm, radar, radar_comm,Xi_mse] =...
 cov = covmat(fdcomm,radar,radar_comm);
 fdcomm = Comm_MMSE(fdcomm,radar,cov);
 radar = radar_MMSE(radar,cov);
-fdcomm = Xi_comm_k(fdcomm,k);
-radar = Xi_radar(radar);
 K = radar.codelength;
 I = fdcomm.UL_num;
 J = fdcomm.DL_num;
@@ -31,6 +29,8 @@ while iter_2<= iter_2_max
     % P_UL = fdcomm.ULpower;
     % P_DL = fdcomm.DLpower; 
     for k = 1: K
+        fdcomm = Xi_comm_k(fdcomm,k);
+        radar = Xi_radar(radar);
         %% UL precoder
         for ii = 1 : I
             [fdcomm,radar,cov] = UL_subgradient(fdcomm, radar_comm, radar, cov, ii,k);

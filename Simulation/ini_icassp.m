@@ -71,7 +71,7 @@ end
 A_ini = zeros(K,Mr);
 for k = 1:K
     P_k = P_r(k);
-    A_ini(:,k) = sqrt(P_k/Mr);
+    A_ini(k,:) = sqrt(P_k/Mr);
 end
 radar.codematrix                = A_ini;
 fdcomm.ULprecoders              = P_UL_ini;

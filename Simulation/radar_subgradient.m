@@ -4,7 +4,7 @@ function [fdcomm, radar, cov] = radar_subgradient(fdcomm, radar_comm, radar, cov
 t_r_max = radar.t_r_max;
 t_r = 1;
 K = radar.codelength;
-fdcomm_temp = fdcomm; 
+% fdcomm_temp = fdcomm; 
 radar_temp = radar;
 cov_temp = cov;
 fdcomm = Xi_comm_k(fdcomm,k);
@@ -22,19 +22,18 @@ while t_r <= t_r_max
     lambda_r_k_t = max(lambda_r_k_new,0);
     radar.lambda(k) = lambda_r_k_t;
     % Update a_k with lambda_r_k_t
-    radar_temp = radar_code(fdcomm_temp, radar_temp, radar_comm, cov_temp,k);
+    [radar_temp,cov_temp] = radar_code(fdcomm, radar_temp, radar_comm, cov_temp,k);
     % Update covariance matrices 
-    cov_temp = covmat(fdcomm_temp,radar_temp,radar_comm); 
+%     cov_temp = covmat(fdcomm_temp,radar_temp,radar_comm); 
     % update Comm WMMSE receivers and weight matrices
-    fdcomm_temp = Comm_MMSE(fdcomm_temp, radar_temp, cov_temp);
+%     fdcomm_temp = Comm_MMSE(fdcomm_temp, radar_temp, cov_temp);
     % Update radar WMMSE receivers and weight matrices
-    radar_temp = radar_MMSE(radar_temp, cov_temp);
+     radar_temp = radar_MMSE(radar_temp, cov_temp);
     % update Xi_MSE
-    fdcomm_temp = Xi_comm_k(fdcomm_temp, k);
+    %fdcomm_temp = Xi_comm_k(fdcomm_temp, k);
     radar_temp = Xi_radar(radar_temp);
-    Xi_temp = fdcomm_temp.Xi_UL(k)+fdcomm_temp.Xi_DL(k) + sum(radar_temp.Xi_r);
+    Xi_temp = fdcomm.Xi_UL(k)+fdcomm.Xi_DL(k) + sum(radar_temp.Xi_r);
     if Xi_temp < Xi_k
-        fdcomm = fdcomm_temp;
         radar = radar_temp;
         cov = cov_temp;
         Xi_k = Xi_temp; 
