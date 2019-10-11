@@ -1,4 +1,4 @@
-function [radar] = radar_code(fdcomm, radar, radar_comm, cov,k)
+function [radar,cov] = radar_code(fdcomm, radar, radar_comm, cov,k)
 % radar code matrix update
 %
 I = fdcomm.UL_num;
@@ -98,9 +98,26 @@ for nr = 1:Nr
         term = (term_1 + term_2)*Wrnr*urnr_k + term;
         end
     end
+end
 F = napla_ak_R_DL_sum+napla_ak_R_UL_sum+term;
 a_k = sylvester(D,E,F);
 radar.codematrix(k,:) = a_k.'; 
+ %% update S_tr
+v_Bt_k = 0;
+for jj = 1:J
+    P_dj_k    = fdcomm.DLprecoders{jj,k};
+    d_dj = fdcomm.DLsymbols{jj,1};
+    d_dj_k_1 = d_dj(:,1,k);
+    v_Bt_k  = P_dj_k*d_dj_k_1 + v_Bt_k;
+end
+for nr = 1:Nr
+    f_Bt_nr = f_Bt_Nr(nr);
+    for m = k
+        q_rnr_m = Qr(:,m,nr);
+        Q_rnr_m = diag(q_rnr_m);
+        v_Bt_m  = v_Bt_k.';        
+        q_Btnr_m= exp(1i*2*pi*(m-1)*f_Bt_nr);
+        cov.S_tr(m,:,nr) = (Q_rnr_m * a_k ).'+ q_Btnr_m*v_Bt_m;
+    end
 end
 end
-
